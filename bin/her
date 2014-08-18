@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+require('../index.js').cli.run(process.argv);
+
+// vim600: sw=4 ts=4 fdm=marker syn=javascript

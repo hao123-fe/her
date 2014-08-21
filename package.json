@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin":{
-      "her": "bin/her"
+  "bin": {
+    "her": "bin/her"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/hao123-dev/her",
   "dependencies": {
-    "fis": "^1.7.14"
+    "fis": "^1.7.14",
+    "fis-optimizer-html-compress": "0.0.7"
   }
 }

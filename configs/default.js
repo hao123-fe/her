@@ -11,11 +11,12 @@ module.exports = {
             //tpl: "extlang"
             tpl: [
                 templateBuilder.replaceScriptTag,
-                templateBuilder.explandPath,
-                //templateBuilder.analyseScript
+                templateBuilder.explandPath
             ]
         },
         postprocessor: {
+            tpl: templateBuilder.analyseScript,
+            tpl: templateBuilder.defineWidget
             //TOOD her 主要处理点
             //js: explander.js,
             //css: explander.css
@@ -117,4 +118,3 @@ module.exports = {
     //        }
     //    }
 };
-

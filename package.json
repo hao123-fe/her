@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/hao123-dev/her",
   "dependencies": {
-    "fis": "^1.7.14",
+    "her-fis": "^1.7.15",
     "fis-optimizer-html-compress": "0.0.7"
   }
 }

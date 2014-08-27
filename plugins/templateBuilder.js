@@ -30,13 +30,22 @@ var stringRegStr = "(?:" +
  */
 function replaceScriptTag(content, file, conf) {
     var runAtServerReg = /(?:^|\s)runat\s*=\s*(["'])server\1/;
-    return tagFilter.filterBlock(content, "script", "<", ">", function(outter, attr, inner) {
-        if (runAtServerReg.test(attr)) {
-            return smarty_left_delimiter + "script" + attr.replace(runAtServerReg, "") + smarty_right_delimiter + inner + smarty_left_delimiter + "/script" + smarty_right_delimiter;
-        } else {
-            return outter;
-        }
-    });
+    return tagFilter.filterBlock(content,
+        "script", "<", ">",
+        function(outter, attr, inner) {
+            if (runAtServerReg.test(attr)) {
+                return smarty_left_delimiter +
+                    "script" +
+                    attr.replace(runAtServerReg, "") +
+                    smarty_right_delimiter +
+                    inner +
+                    smarty_left_delimiter +
+                    "/script" +
+                    smarty_right_delimiter;
+            } else {
+                return outter;
+            }
+        });
 }
 
 /**
@@ -50,17 +59,27 @@ function replaceScriptTag(content, file, conf) {
  */
 function explandSmartyPathAttr(content, tagName, attrName) {
     // /((?:^|\s)name\s*=\s*)((["']).*?\3)/
-    var attrReg = new RegExp("((?:^|\\s)" + pregQuote(attrName) + "\\s*=\\s*)(([\"\']).*?\\3)", "ig");
-    content = tagFilter.filterTag(content, tagName, smarty_left_delimiter, smarty_right_delimiter, function(outter, attr) {
-        var preCodeHolder = "$1",
-            valueCodeHolder = "$2";
-        //console.log(outter, attr);
-        attr = attr.replace(attrReg, preCodeHolder + fis_standard_map.require.ld + valueCodeHolder + fis_standard_map.require.rd);
-        //console.log(outter, attr);
-        outter = smarty_left_delimiter + tagName + attr + smarty_right_delimiter;
-        //console.log(outter, attr);
-        return outter;
-    });
+    var attrReg = new RegExp("((?:^|\\s)" +
+        pregQuote(attrName) +
+        "\\s*=\\s*)(([\"\']).*?\\3)", "ig");
+    content = tagFilter.filterTag(content,
+        tagName, smarty_left_delimiter, smarty_right_delimiter,
+        function(outter, attr) {
+            var preCodeHolder = "$1",
+                valueCodeHolder = "$2";
+            //console.log(outter, attr);
+            attr = attr.replace(attrReg,
+                preCodeHolder +
+                fis_standard_map.id.ld +
+                valueCodeHolder +
+                fis_standard_map.id.rd);
+            //console.log(outter, attr);
+            outter = smarty_left_delimiter +
+                tagName + attr +
+                smarty_right_delimiter;
+            //console.log(outter, attr);
+            return outter;
+        });
 
     return content;
 }
@@ -73,43 +92,61 @@ function explandSmartyPathAttr(content, tagName, attrName) {
  * @return void
  */
 function explandScriptRequirePath(content) {
-    var requireRegStr = "(\\brequire(?:\\s*\\.\\s*(?:async|defer))?\\s*\\(\\s*)(" + stringRegStr + "|" + jsStringArrayRegStr + ")",
+    var requireRegStr = "(\\brequire(?:\\s*\\.\\s*(?:async|defer))?\\s*\\(\\s*)(" +
+        stringRegStr + "|" +
+        jsStringArrayRegStr + ")",
+
         //优先匹配字符串和注释
-        reg = new RegExp(stringRegStr + "|" + jscommentRegStr + "|" + requireRegStr, "g");
+        reg = new RegExp(stringRegStr + "|" +
+            jscommentRegStr + "|" +
+            requireRegStr, "g");
 
-    content = tagFilter.filterBlock(content, "script", smarty_left_delimiter, smarty_right_delimiter, function(outter, attr, inner) {
-        reg.lastIndex = 0;
-        inner = inner.replace(reg, function(all, requirePrefix, requireValueStr) {
-            if (requirePrefix) {
-                try {
-                    requireValue = JSON.parse(requireValueStr);
-                    switch (typeof(requireValue)) {
-                        case "string": // String
-                            all = requirePrefix + fis_standard_map.require.ld + requireValueStr + fis_standard_map.require.rd;
-                            break;
-                        case "object": // Array
-                            for (var i = 0, count = requireValue.length, output = []; i < count; i++) {
-                                output.push(fis_standard_map.require.ld + JSON.stringify(requireValue[i]) + fis_standard_map.require.rd);
-                            }
-                            all = requirePrefix + "[" + output.join(",") + "]";
-                            break;
+    content = tagFilter.filterBlock(content,
+        "script", smarty_left_delimiter, smarty_right_delimiter,
+        function(outter, attr, inner) {
+            reg.lastIndex = 0;
+            inner = inner.replace(reg,
+                function(all, requirePrefix, requireValueStr) {
+                    if (requirePrefix) {
+                        //try {
+                        var requireValue = JSON.parse(requireValueStr);
+                        //} catch (e) {
+                        //TODO Error
+                        //}
+                        switch (typeof(requireValue)) {
+                            case "string": // String
+                                all = requirePrefix +
+                                    fis_standard_map.id.ld +
+                                    requireValueStr +
+                                    fis_standard_map.id.rd;
+                                break;
+                            case "object": // Array
+                                all = requirePrefix +
+                                    "[" + requireValue.map(function(path) {
+                                        return fis_standard_map.id.ld +
+                                            JSON.stringify(path) +
+                                            fis_standard_map.id.rd;
+                                    }).join(",") + "]";
+                                break;
+                        }
                     }
-                } catch (e) {
-                    //TODO Error
-                }
-            }
-            return all;
-        });
+                    return all;
+                });
 
-        return smarty_left_delimiter + "script" + attr + smarty_right_delimiter +
-            inner +
-            smarty_left_delimiter + "/" + "script" + smarty_right_delimiter;
-    });
+            return smarty_left_delimiter +
+                "script" +
+                attr +
+                smarty_right_delimiter +
+                inner +
+                smarty_left_delimiter +
+                "/script" +
+                smarty_right_delimiter;
+        });
     return content;
 }
 
 function explandPath(content, file, conf) {
-    //console.log(file);
+    // console.log(file);
     content = explandSmartyPathAttr(content, "html", "framework");
     content = explandSmartyPathAttr(content, "require", "name");
     content = explandSmartyPathAttr(content, "widget", "name");
@@ -118,18 +155,113 @@ function explandPath(content, file, conf) {
 }
 
 function analyseScript(content, file, conf) {
-    //TODO
+    var requireRegStr = "(\\brequire(?:\\s*\\.\\s*(async|defer))?\\s*\\(\\s*)(" +
+        stringRegStr + "|" +
+        jsStringArrayRegStr + ")",
+
+        //优先匹配字符串和注释
+        reg = new RegExp(stringRegStr + "|" +
+            jscommentRegStr + "|" +
+            requireRegStr, "g");
+
+    content = tagFilter.filterBlock(content,
+        "script",
+        smarty_left_delimiter,
+        smarty_right_delimiter,
+        function(outter, attr, inner) {
+            var requires = {
+                sync: {},
+                async: {}
+            };
+
+            reg.lastIndex = 0;
+            inner.replace(reg,
+                function(all, requirePrefix, requireType, requireValueStr) {
+                    var requireValue, holder;
+
+                    if (requirePrefix) {
+                        //try {
+                        requireValue = JSON.parse(requireValueStr);
+                        //} catch (e) {
+                        //TODO Error
+                        //}
+                        switch (typeof(requireValue)) {
+                            case "string": // String
+                                requireValue = [requireValue];
+                                break;
+                            case "object": // Array
+                                // nothing to do
+                                break;
+                            default:
+                                //???
+                        }
+
+                        requireType = "require" + (requireType ? ("." + requireType) : "");
+                        console.log(requireType);
+                        switch (requireType) {
+                            case "require":
+                                holder = requires.sync;
+                                break;
+                            case "require.async":
+                            case "require.defer":
+                                holder = requires.async;
+                                break;
+                            default:
+                                //???
+                        }
+
+                        console.log(holder, requireValue);
+                        requireValue.forEach(function(item, index, array) {
+                            holder[item] = true;
+                        });
+                    }
+                });
+
+            var arr, i;
+
+            arr = [];
+            for (i in requires.sync) {
+                if (requires.sync.hasOwnProperty(i)) {
+                    arr.push(JSON.stringify(i));
+                }
+            }
+            attr += " sync=[" + arr.join(",") + "]";
+
+            arr = [];
+            for (i in requires.async) {
+                if (requires.async.hasOwnProperty(i)) {
+                    arr.push(JSON.stringify(i));
+                }
+            }
+            attr += " async=[" + arr.join(",") + "]";
+
+            return smarty_left_delimiter +
+                "script" +
+                attr +
+                smarty_right_delimiter +
+                inner +
+                smarty_left_delimiter +
+                "/script" +
+                smarty_right_delimiter;
+        });
     return content;
 }
 
-
 function defineWidget(content, file, conf) {
-    content = tagFilter.filterBlock(content, "define", smarty_left_delimiter, smarty_right_delimiter, function(outter, attr, inner) {
-        //TODO
-        return smarty_left_delimiter + "function" + attr + smarty_right_delimiter +
-            inner +
-            smarty_left_delimiter + "/function" + smarty_right_delimiter;
-    });
+    // console.log(file.id);
+    content = tagFilter.filterBlock(content,
+        "define", smarty_left_delimiter, smarty_right_delimiter,
+        function(outter, attr, inner) {
+            //TODO 替换Widget名字等
+            return smarty_left_delimiter +
+                "function" +
+                attr +
+                smarty_right_delimiter +
+                inner +
+                smarty_left_delimiter +
+                "/function" +
+                smarty_right_delimiter;
+        });
     return content;
 }
 

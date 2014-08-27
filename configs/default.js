@@ -15,8 +15,10 @@ module.exports = {
             ]
         },
         postprocessor: {
-            tpl: templateBuilder.analyseScript,
-            tpl: templateBuilder.defineWidget
+            tpl: [
+                templateBuilder.analyseScript,
+                templateBuilder.defineWidget
+            ]
             //TOOD her 主要处理点
             //js: explander.js,
             //css: explander.css

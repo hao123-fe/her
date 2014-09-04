@@ -5,6 +5,7 @@ var smarty_left_delimiter = fis.config.get("settings.smarty.left_delimiter") || 
     smarty_right_delimiter = fis.config.get("settings.smarty.left_delimiter") || "}",
     fis_standard_map = fis.compile.lang;
 
+
 var stringRegStr = "(?:" +
     "\"(?:[^\\\\\"\\r\\n\\f]|\\\\[\\s\\S])*\"" + //匹配以"为界定符的字符禅
     "|" +
@@ -19,20 +20,24 @@ var stringRegStr = "(?:" +
     "\\[\\s*" + stringRegStr + "(?:\\s*,\\s*" + stringRegStr + ")*\\s*\\]" + //匹配非空字符串数组
     ")";
 
+var DEFAULT_METHOD_NAME = "__main",
+    PRFIX = "_",
+    SUFFIX = "_";
+
 /**
- * replaceScriptTag 将<script runat="server"></script> 替换为 {script}{/script}
- *
- * @param content $content
- * @param file $file
- * @param conf $conf
- * @access public
- * @return void
- */
+* replaceScriptTag 将<script runat="server"></script> 替换为 {script}{/script}
+*
+* @param content $content
+* @param file $file
+* @param conf $conf
+* @access public
+* @return void
+*/
 function replaceScriptTag(content, file, conf) {
     var runAtServerReg = /(?:^|\s)runat\s*=\s*(["'])server\1/;
     return tagFilter.filterBlock(content,
         "script", "<", ">",
-        function(outter, attr, inner) {
+        function (outter, attr, inner) {
             if (runAtServerReg.test(attr)) {
                 return smarty_left_delimiter +
                     "script" +
@@ -49,14 +54,14 @@ function replaceScriptTag(content, file, conf) {
 }
 
 /**
- * explandSmartyPathAttr 替换Smarty模板中用于定位资源的标签参数
- *
- * @param content $content
- * @param tagName $tagName
- * @param attrName $attrName
- * @access public
- * @return void
- */
+* explandSmartyPathAttr 替换Smarty模板中用于定位资源的标签参数
+*
+* @param content $content
+* @param tagName $tagName
+* @param attrName $attrName
+* @access public
+* @return void
+*/
 function explandSmartyPathAttr(content, tagName, attrName) {
     // /((?:^|\s)name\s*=\s*)((["']).*?\3)/
     var attrReg = new RegExp("((?:^|\\s)" +
@@ -64,10 +69,10 @@ function explandSmartyPathAttr(content, tagName, attrName) {
         "\\s*=\\s*)(([\"\']).*?\\3)", "ig");
     content = tagFilter.filterTag(content,
         tagName, smarty_left_delimiter, smarty_right_delimiter,
-        function(outter, attr) {
+        function (outter, attr) {
             var preCodeHolder = "$1",
                 valueCodeHolder = "$2";
-            //console.log(outter, attr);
+
             attr = attr.replace(attrReg,
                 preCodeHolder +
                 fis_standard_map.id.ld +
@@ -85,35 +90,35 @@ function explandSmartyPathAttr(content, tagName, attrName) {
 }
 
 /**
- * explandScriptRequirePath 替换Js中 require、require.async、require.defer 用到的路径参数
- *
- * @param content $content
- * @access public
- * @return void
- */
+* explandScriptRequirePath 替换Js中 require、require.async、require.defer 用到的路径参数
+*
+* @param content $content
+* @access public
+* @return void
+*/
 function explandScriptRequirePath(content) {
     var requireRegStr = "(\\brequire(?:\\s*\\.\\s*(?:async|defer))?\\s*\\(\\s*)(" +
         stringRegStr + "|" +
         jsStringArrayRegStr + ")",
 
-        //优先匹配字符串和注释
+    //优先匹配字符串和注释
         reg = new RegExp(stringRegStr + "|" +
             jscommentRegStr + "|" +
             requireRegStr, "g");
 
     content = tagFilter.filterBlock(content,
         "script", smarty_left_delimiter, smarty_right_delimiter,
-        function(outter, attr, inner) {
+        function (outter, attr, inner) {
             reg.lastIndex = 0;
             inner = inner.replace(reg,
-                function(all, requirePrefix, requireValueStr) {
+                function (all, requirePrefix, requireValueStr) {
                     if (requirePrefix) {
                         //try {
                         var requireValue = JSON.parse(requireValueStr);
                         //} catch (e) {
                         //TODO Error
                         //}
-                        switch (typeof(requireValue)) {
+                        switch (typeof (requireValue)) {
                             case "string": // String
                                 all = requirePrefix +
                                     fis_standard_map.id.ld +
@@ -122,7 +127,7 @@ function explandScriptRequirePath(content) {
                                 break;
                             case "object": // Array
                                 all = requirePrefix +
-                                    "[" + requireValue.map(function(path) {
+                                    "[" + requireValue.map(function (path) {
                                         return fis_standard_map.id.ld +
                                             JSON.stringify(path) +
                                             fis_standard_map.id.rd;
@@ -159,7 +164,7 @@ function analyseScript(content, file, conf) {
         stringRegStr + "|" +
         jsStringArrayRegStr + ")",
 
-        //优先匹配字符串和注释
+    //优先匹配字符串和注释
         reg = new RegExp(stringRegStr + "|" +
             jscommentRegStr + "|" +
             requireRegStr, "g");
@@ -168,7 +173,7 @@ function analyseScript(content, file, conf) {
         "script",
         smarty_left_delimiter,
         smarty_right_delimiter,
-        function(outter, attr, inner) {
+        function (outter, attr, inner) {
             var requires = {
                 sync: {},
                 async: {}
@@ -176,7 +181,7 @@ function analyseScript(content, file, conf) {
 
             reg.lastIndex = 0;
             inner.replace(reg,
-                function(all, requirePrefix, requireType, requireValueStr) {
+                function (all, requirePrefix, requireType, requireValueStr) {
                     var requireValue, holder;
 
                     if (requirePrefix) {
@@ -185,7 +190,7 @@ function analyseScript(content, file, conf) {
                         //} catch (e) {
                         //TODO Error
                         //}
-                        switch (typeof(requireValue)) {
+                        switch (typeof (requireValue)) {
                             case "string": // String
                                 requireValue = [requireValue];
                                 break;
@@ -197,7 +202,7 @@ function analyseScript(content, file, conf) {
                         }
 
                         requireType = "require" + (requireType ? ("." + requireType) : "");
-                        console.log(requireType);
+                        // console.log(requireType);
                         switch (requireType) {
                             case "require":
                                 holder = requires.sync;
@@ -210,8 +215,8 @@ function analyseScript(content, file, conf) {
                                 //???
                         }
 
-                        console.log(holder, requireValue);
-                        requireValue.forEach(function(item, index, array) {
+                        //console.log(holder, requireValue);
+                        requireValue.forEach(function (item, index, array) {
                             holder[item] = true;
                         });
                     }
@@ -248,11 +253,27 @@ function analyseScript(content, file, conf) {
 }
 
 function defineWidget(content, file, conf) {
-    // console.log(file.id);
+    //创建提取method方法的reg
+    var methodReg = new RegExp("((?:^|\\s)method\\s*=\\s*)(" + stringRegStr + ")"),
+        nameReg = new RegExp("(?:^|\\s)name\\s*=\\s*(" + stringRegStr + ")");
+
+    //把define替换成function
     content = tagFilter.filterBlock(content,
         "define", smarty_left_delimiter, smarty_right_delimiter,
-        function(outter, attr, inner) {
-            //TODO 替换Widget名字等
+        function (outter, attr, inner) {
+            var md5Name = PRFIX + fis.util.md5(file.id, 32) + SUFFIX;
+            //判断define中是否有method属性
+            if (methodReg.test(attr)) {
+
+                attr = attr.replace(methodReg, function (all, methodPrefix, methodValue) {
+                    var info = fis.util.stringQuote(methodValue);
+
+                    return methodPrefix + info.quote + md5Name + info.rest + info.quote;
+                });
+            } else {
+                attr += ' method="' + md5Name + DEFAULT_METHOD_NAME + '"';
+            }
+
             return smarty_left_delimiter +
                 "function" +
                 attr +
@@ -262,6 +283,34 @@ function defineWidget(content, file, conf) {
                 "/function" +
                 smarty_right_delimiter;
         });
+
+    //把widget中的name属性 md5
+    content = tagFilter.filterTag(content,
+        "widget", smarty_left_delimiter, smarty_right_delimiter,
+        function (outter, attr, inner) {
+            var matches = attr.match(nameReg),
+                info, widgetName;
+            if (!matches) {
+                throw new Error("widget must define name attribute");
+            } else {
+                info = fis.util.stringQuote(matches[1]);
+                widgetName = PRFIX + fis.util.md5(info.rest, 32) + SUFFIX;
+            }
+            if (methodReg.test(attr)) {
+                attr = attr.replace(methodReg, function (all, methodPrefix, methodValue) {
+                    info = fis.util.stringQuote(methodValue);
+
+                    return methodPrefix + info.quote + widgetName + info.rest + info.quote;
+                });
+            }
+
+            return smarty_left_delimiter +
+                "widget" +
+                attr +
+                smarty_right_delimiter;
+        });
+
+
     return content;
 }
 

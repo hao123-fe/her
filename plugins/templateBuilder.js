@@ -1,4 +1,5 @@
 var tagFilter = require("../plugins/tagFilter.js"),
+    commonReg = require("../plugins/commonReg.js"),
     pregQuote = require("../plugins/pregQuote.js");
 
 var smarty_left_delimiter = fis.config.get("settings.smarty.left_delimiter") || "{",
@@ -6,19 +7,9 @@ var smarty_left_delimiter = fis.config.get("settings.smarty.left_delimiter") || 
     fis_standard_map = fis.compile.lang;
 
 
-var stringRegStr = "(?:" +
-    "\"(?:[^\\\\\"\\r\\n\\f]|\\\\[\\s\\S])*\"" + //匹配以"为界定符的字符禅
-    "|" +
-    "\'(?:[^\\\\\'\\r\\n\\f]|\\\\[\\s\\S])*\'" + //匹配以'为界定符的字符串
-    ")",
-    jscommentRegStr = "(?:" +
-    "\\/\\/[^\\r\\n\\f]*" + // 匹配单行注释
-    "|" +
-    "\\/\\*[\\s\\S]+?\\*\\/" + //匹配多行注释
-    ")",
-    jsStringArrayRegStr = "(?:" +
-    "\\[\\s*" + stringRegStr + "(?:\\s*,\\s*" + stringRegStr + ")*\\s*\\]" + //匹配非空字符串数组
-    ")";
+var stringRegStr = commonReg.stringRegStr,
+    jscommentRegStr = commonReg.jscommentRegStr,
+    jsStringArrayRegStr = commonReg.jsStringArrayRegStr;
 
 var DEFAULT_METHOD_NAME = "__main",
     PRFIX = "_",
@@ -160,7 +151,7 @@ function explandPath(content, file, conf) {
 }
 
 function analyseScript(content, file, conf) {
-    var requireRegStr = "(\\brequire(?:\\s*\\.\\s*(async|defer))?\\s*\\(\\s*)(" +
+    var requireRegStr = "((?:[^\\$\\.]|^)\\brequire(?:\\s*\\.\\s*(async|defer))?\\s*\\(\\s*)(" +
         stringRegStr + "|" +
         jsStringArrayRegStr + ")",
 

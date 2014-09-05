@@ -1,4 +1,6 @@
-var templateBuilder = require("../plugins/templateBuilder.js");
+var templateBuilder = require("../plugins/templateBuilder.js"),
+    jsWrapper = require("../plugins/jsWrapper.js"),
+    cssWrapper = require("../plugins/cssWrapper.js");
 
 module.exports = {
     //静态文件目录
@@ -18,9 +20,10 @@ module.exports = {
             tpl: [
                 templateBuilder.analyseScript,
                 templateBuilder.defineWidget
-            ]
+            ],
             //TOOD her 主要处理点
-            //js: explander.js,
+            js: jsWrapper,
+            css: cssWrapper
             //css: explander.css
         },
         optimizer: {

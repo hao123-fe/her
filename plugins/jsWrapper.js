@@ -6,7 +6,7 @@ var commonReg = require("../plugins/commonReg.js");
 //构造分析require("xxx")的正则表达式，同时优先分析字符串和注释。
 var requireRegStr = commonReg.stringRegStr + "|" + 
                     commonReg.jscommentRegStr + "|" +
-                    "(?:(?:[^\\$\\.]|^)\\brequire\\s*\\(\\s*)(" +
+                    "([^\\$\\.]|^)(\\brequire\\s*)\\(\\s*(" +
                     commonReg.stringRegStr + ")\\s*\\)";
 
 var PREFIX = "__",
@@ -18,7 +18,7 @@ module.exports = function (content, file, conf) {
         deps = [],
         md5deps = [];
 
-    content = content.replace(reg, function (all, requireValueStr) {
+    content = content.replace(reg, function (all, requirePre, requireStr, requireValueStr) {
         var info, dep, md5dep;
         //满足条件说明匹配到期望的require，注释和字符中的requireValueStr都为undefined
         if (requireValueStr) {
@@ -30,7 +30,7 @@ module.exports = function (content, file, conf) {
             deps.push(dep);
             md5deps.push(md5dep);
 
-            return "/*" + all + "*/" + md5dep;
+            return requirePre + "/*" + requireStr + "*/" + md5dep;
         }
         return all;
     });

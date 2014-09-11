@@ -30,15 +30,13 @@ module.exports = function (content, file, conf) {
     }
     file.extras.async = [];
 
-    content = content.replace(reg, function (all, requirePrefix, requireType, requireValueStr) {
+    content.replace(reg, function (all, requirePrefix, requireType, requireValueStr) {
         var requireValue, holder, info;
 
         if (requirePrefix) {
-            //try {
+
             requireValue = JSON.parse(requireValueStr);
-            //} catch (e) {
-            //TODO Error
-            //}
+
             switch (typeof (requireValue)) {
                 case "string": // String
                     requireValue = [requireValue];
@@ -47,7 +45,6 @@ module.exports = function (content, file, conf) {
                     // nothing to do
                     break;
                 default:
-                    //???
             }
 
             requireType = "require" + (requireType ? ("." + requireType) : "");

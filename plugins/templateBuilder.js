@@ -258,11 +258,10 @@ function defineWidget(content, file, conf) {
 
                 attr = attr.replace(methodReg, function (all, methodPrefix, methodValue) {
                     var info = fis.util.stringQuote(methodValue);
-
-                    return methodPrefix + info.quote + md5Name + info.rest + info.quote;
+                    return methodPrefix.replace('method', 'name') + info.quote + md5Name + info.rest + info.quote;
                 });
             } else {
-                attr += ' method="' + md5Name + DEFAULT_METHOD_NAME + '"';
+                attr += ' name="' + md5Name + DEFAULT_METHOD_NAME + '"';
             }
 
             return smarty_left_delimiter +

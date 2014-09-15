@@ -6,6 +6,7 @@ var commonReg = require("../plugins/commonReg.js");
 var stringRegStr = commonReg.stringRegStr,
     jscommentRegStr = commonReg.jscommentRegStr,
     jsStringArrayRegStr = commonReg.jsStringArrayRegStr,
+    //构造分析require|require.async|require.defer的正则表达式
     requireRegStr = "((?:[^\\$\\.]|^)\\brequire(?:\\s*\\.\\s*(async|defer))?\\s*\\(\\s*)(" +
         stringRegStr + "|" +
         jsStringArrayRegStr + ")";
@@ -16,14 +17,14 @@ module.exports = function (content, file, conf) {
     //优先匹配字符串和注释
     var reg = new RegExp(stringRegStr + "|" +
             jscommentRegStr + "|" +
-            requireRegStr, "g");
+            requireRegStr, "g"),
+    //存储分析的同步require和异步require
+        requires = {
+            sync: {},
+            async: {}
+        },
+        initial = false;
 
-    var requires = {
-        sync: {},
-        async: {}
-    };
-
-    var initial = false;
     if (file.extras == undefined) {
         file.extras = {};
         initial = true;
@@ -33,6 +34,7 @@ module.exports = function (content, file, conf) {
     content.replace(reg, function (all, requirePrefix, requireType, requireValueStr) {
         var requireValue, holder, info;
 
+        //满足条件说明匹配到期望的require，注释和字符中的requirePrefix都为undefined
         if (requirePrefix) {
 
             requireValue = JSON.parse(requireValueStr);
@@ -45,6 +47,7 @@ module.exports = function (content, file, conf) {
                     // nothing to do
                     break;
                 default:
+                    break;
             }
 
             requireType = "require" + (requireType ? ("." + requireType) : "");
@@ -58,9 +61,11 @@ module.exports = function (content, file, conf) {
                     holder = requires.async;
                     break;
                 default:
+                    break;
             }
 
             requireValue.forEach(function (item, index, array) {
+                //standard路径
                 info = fis.uri.getId(item, file.dirname);
                 holder[info.id] = true;
             });
@@ -79,6 +84,7 @@ module.exports = function (content, file, conf) {
         }
     }
 
+    //如果没有异步依赖，删除多余的对象
     if (file.extras.async.length == 0) {
         delete file.extras.async;
         if (initial) {

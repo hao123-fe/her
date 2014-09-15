@@ -142,7 +142,7 @@ function explandScriptRequirePath(content) {
 }
 
 function explandPath(content, file, conf) {
-    // console.log(file);
+ 
     content = explandSmartyPathAttr(content, "html", "framework");
     content = explandSmartyPathAttr(content, "require", "name");
     content = explandSmartyPathAttr(content, "widget", "name");
@@ -189,11 +189,11 @@ function analyseScript(content, file, conf) {
                                 // nothing to do
                                 break;
                             default:
-                                //???
+                                break;
                         }
 
                         requireType = "require" + (requireType ? ("." + requireType) : "");
-                        // console.log(requireType);
+      
                         switch (requireType) {
                             case "require":
                                 holder = requires.sync;
@@ -203,10 +203,9 @@ function analyseScript(content, file, conf) {
                                 holder = requires.async;
                                 break;
                             default:
-                                //???
+                                break;
                         }
-
-                        //console.log(holder, requireValue);
+    
                         requireValue.forEach(function (item, index, array) {
                             holder[item] = true;
                         });
@@ -244,14 +243,14 @@ function analyseScript(content, file, conf) {
 }
 
 function defineWidget(content, file, conf) {
-    //创建提取method方法的reg
-    var methodReg = new RegExp("((?:^|\\s)method\\s*=\\s*)(" + stringRegStr + ")"),
-        nameReg = new RegExp("(?:^|\\s)name\\s*=\\s*(" + stringRegStr + ")");
+    var methodReg = new RegExp("((?:^|\\s)method\\s*=\\s*)(" + stringRegStr + ")"), //创建提取method方法的正则
+        nameReg = new RegExp("(?:^|\\s)name\\s*=\\s*(" + stringRegStr + ")"); //匹配widget中name的正则
 
-    //把define替换成function
+    //把define替换成function，name为"_standard路径md5值_method",如没有method则取默认值__main
     content = tagFilter.filterBlock(content,
         "define", smarty_left_delimiter, smarty_right_delimiter,
         function (outter, attr, inner) {
+            //把文件standard路径md5
             var md5Name = PRFIX + fis.util.md5(file.id, 32) + SUFFIX;
             //判断define中是否有method属性
             if (methodReg.test(attr)) {
@@ -274,7 +273,7 @@ function defineWidget(content, file, conf) {
                 smarty_right_delimiter;
         });
 
-    //把widget中的name属性 md5
+    //把widget中的method替换为为"_standard路径md5值_method"
     content = tagFilter.filterTag(content,
         "widget", smarty_left_delimiter, smarty_right_delimiter,
         function (outter, attr, inner) {

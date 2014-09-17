@@ -1,6 +1,8 @@
 var templateBuilder = require("../plugins/templateBuilder.js"),
+    requireAnalyze = require("../plugins/requireAnalyze.js"),
     jsWrapper = require("../plugins/jsWrapper.js"),
-    cssWrapper = require("../plugins/cssWrapper.js");
+    cssWrapper = require("../plugins/cssWrapper.js"),
+    outputHermap = require("../plugins/outputHermap.js");
 
 module.exports = {
     //静态文件目录
@@ -22,14 +24,18 @@ module.exports = {
                 templateBuilder.defineWidget
             ],
             //TOOD her 主要处理点
-            js: jsWrapper,
+            js: [
+                requireAnalyze,
+                jsWrapper
+            ],
             css: cssWrapper
             //css: explander.css
         },
         optimizer: {
             //tpl: 'smarty-xss,html-compress'
             tpl: 'html-compress'
-        }
+        },
+        prepackager: outputHermap
     }
     //    modules: {
     //        parser: {

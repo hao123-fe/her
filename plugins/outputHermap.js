@@ -39,13 +39,13 @@ var exports = module.exports = function (ret, conf, settings, opt) {
                     type: file.rExt.replace(/^\./, '')
                 };
 
-                herRes.mods = [file.id];
+                herRes.defines = [file.id];
                 if (file.requires && file.requires.length) {
-                    herRes.deps = file.requires;
+                    herRes.requires = file.requires;
                 }
                 for (var key in file.extras) {
                     if (file.extras.hasOwnProperty(key)) {
-                        herRes.async = file.extras.async;
+                        herRes.requireAsyncs = file.extras.async;
                     }
                 }
             }

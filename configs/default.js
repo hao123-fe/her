@@ -1,7 +1,6 @@
 var templateBuilder = require("../plugins/templateBuilder.js"),
     requireAnalyze = require("../plugins/requireAnalyze.js"),
     jsWrapper = require("../plugins/jsWrapper.js"),
-    cssWrapper = require("../plugins/cssWrapper.js"),
     outputHermap = require("../plugins/outputHermap.js");
 
 module.exports = {
@@ -27,8 +26,7 @@ module.exports = {
             js: [
                 requireAnalyze,
                 jsWrapper
-            ],
-            css: cssWrapper
+            ]
             //css: explander.css
         },
         optimizer: {

@@ -20,20 +20,26 @@
 *  }
 */
 var exports = module.exports = function (ret, conf, settings, opt) {
-    var herMap = {}, //资源表map
+    var content, //文件内容 
+        herMap = {}, //资源表map
         herId, // 资源id,
         herRes, //资源描述
         herjson, //生成的mapjson文件
         root = fis.project.getProjectPath(), //project root
         ns = fis.config.get('namespace'); //namespace
-    
+
     //遍历文件目录，生成map
     fis.util.map(ret.src, function (subpath, file) {
         if (file.release && file.useMap) {
             //生成herMap
             if (file.isJsLike || file.isCssLike) {
-
-                herId = fis.util.md5(file.getContent(), 10);
+                content = file.getContent();
+                herId = fis.util.md5(content);
+                //处理css
+                if (file.isCssLike) {
+                    content += "\n" + ".css_" + herId + "{height:88px}";
+                    file.setContent(content);
+                }
                 herRes = herMap[herId] = {
                     src: file.getUrl(opt.hash, opt.domain),
                     type: file.rExt.replace(/^\./, '')

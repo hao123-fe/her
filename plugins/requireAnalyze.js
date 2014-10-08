@@ -11,7 +11,6 @@ var stringRegStr = commonReg.stringRegStr,
         stringRegStr + "|" +
         jsStringArrayRegStr + ")";
 
-
 module.exports = function (content, file, conf) {
 
     var reg, requires, initial;
@@ -34,24 +33,22 @@ module.exports = function (content, file, conf) {
         }
         file.extras.async = [];
 
-        content.replace(reg, function (all, requirePrefix, requireType, requireValueStr) {
-            var requireValue, holder, info;
+        content = content.replace(reg, function (all, requirePrefix, requireType, requireValueStr) {
+            var hasBrackets = false,
+                requireValue, holder, info, quote;
 
             //满足条件说明匹配到期望的require，注释和字符中的requirePrefix都为undefined
             if (requirePrefix) {
 
-                requireValue = JSON.parse(requireValueStr);
+                //判断是否有[]，有则切割,
+                requireValueStr = requireValueStr.trim().replace(/(^\[|\]$)/g, function (m, v) {
+                    if (v) {
+                        hasBrackets = true;
+                    }
+                    return '';
+                });
 
-                switch (typeof (requireValue)) {
-                    case "string": // String
-                        requireValue = [requireValue];
-                        break;
-                    case "object": // Array
-                        // nothing to do
-                        break;
-                    default:
-                        break;
-                }
+                requireValue = requireValueStr.split(/\s*,\s*/);
 
                 requireType = "require" + (requireType ? ("." + requireType) : "");
 
@@ -71,8 +68,23 @@ module.exports = function (content, file, conf) {
                     //standard路径
                     info = fis.uri.getId(item, file.dirname);
                     holder[info.id] = true;
+
                 });
+
+                //standard路径
+                if (hasBrackets) {//Array
+                    all = requirePrefix +
+                                    "[" + requireValue.map(function (path) {
+                                        quote = fis.util.stringQuote(path).quote;
+                                        return quote + fis.uri.getId(path, file.dirname).id + quote
+                                    }).join(",") + "]";
+                } else { //String
+                    quote = fis.util.stringQuote(requireValueStr).quote;
+                    all = requirePrefix + quote + fis.uri.getId(requireValueStr, file.dirname).id + quote;
+                }
+
             }
+            return all;
         });
 
         //处理同步require

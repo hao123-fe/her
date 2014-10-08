@@ -103,28 +103,33 @@ function explandScriptRequirePath(content) {
             reg.lastIndex = 0;
             inner = inner.replace(reg,
                 function (all, requirePrefix, requireValueStr) {
+                    var requireValue, hasBrackets = false;
+
                     if (requirePrefix) {
-                        //try {
-                        var requireValue = JSON.parse(requireValueStr);
-                        //} catch (e) {
-                        //TODO Error
-                        //}
-                        switch (typeof (requireValue)) {
-                            case "string": // String
-                                all = requirePrefix +
+
+                        //判断是否有[]，有则切割,
+                        requireValueStr = requireValueStr.trim().replace(/(^\[|\]$)/g, function (m, v) {
+                            if (v) {
+                                hasBrackets = true;
+                            }
+                            return '';
+                        });
+                        if (hasBrackets) {//Array
+                            //构造数组
+                            requireValue = requireValueStr.split(/\s*,\s*/);
+                            all = requirePrefix +
+                                    "[" + requireValue.map(function (path) {
+                                        return fis_standard_map.id.ld +
+                                            path +
+                                            fis_standard_map.id.rd;
+                                    }).join(",") + "]";
+                        } else { //String
+                            all = requirePrefix +
                                     fis_standard_map.id.ld +
                                     requireValueStr +
                                     fis_standard_map.id.rd;
-                                break;
-                            case "object": // Array
-                                all = requirePrefix +
-                                    "[" + requireValue.map(function (path) {
-                                        return fis_standard_map.id.ld +
-                                            JSON.stringify(path) +
-                                            fis_standard_map.id.rd;
-                                    }).join(",") + "]";
-                                break;
                         }
+
                     }
                     return all;
                 });
@@ -176,24 +181,31 @@ function analyseScript(content, file, conf) {
                     var requireValue, holder;
 
                     if (requirePrefix) {
+                        
+                        //先切割掉[]
+                        requireValueStr = requireValueStr.trim().replace(/(^\[|\]$)/g, '');
+
+                        //构造数组
+                        requireValue = requireValueStr.split(/\s*,\s*/);
+
+                       
                         //try {
-                        requireValue = JSON.parse(requireValueStr);
                         //} catch (e) {
                         //TODO Error
                         //}
-                        switch (typeof (requireValue)) {
-                            case "string": // String
-                                requireValue = [requireValue];
-                                break;
-                            case "object": // Array
-                                // nothing to do
-                                break;
-                            default:
-                                break;
-                        }
+                        //                        switch (typeof (requireValue)) {
+                        //                            case "string": // String
+                        //                                requireValue = [requireValue];
+                        //                                break;
+                        //                            case "object": // Array
+                        //                                // nothing to do
+                        //                                break;
+                        //                            default:
+                        //                                break;
+                        //                        }
 
                         requireType = "require" + (requireType ? ("." + requireType) : "");
-      
+
                         switch (requireType) {
                             case "require":
                                 holder = requires.sync;
@@ -205,7 +217,7 @@ function analyseScript(content, file, conf) {
                             default:
                                 break;
                         }
-    
+
                         requireValue.forEach(function (item, index, array) {
                             holder[item] = true;
                         });
@@ -217,7 +229,7 @@ function analyseScript(content, file, conf) {
             arr = [];
             for (i in requires.sync) {
                 if (requires.sync.hasOwnProperty(i)) {
-                    arr.push(JSON.stringify(i));
+                    arr.push(i);
                 }
             }
             attr += " sync=[" + arr.join(",") + "]";
@@ -225,7 +237,7 @@ function analyseScript(content, file, conf) {
             arr = [];
             for (i in requires.async) {
                 if (requires.async.hasOwnProperty(i)) {
-                    arr.push(JSON.stringify(i));
+                    arr.push(i);
                 }
             }
             attr += " async=[" + arr.join(",") + "]";
@@ -274,7 +286,7 @@ function defineWidget(content, file, conf) {
         });
 
     //把widget中的method替换为为"_standard路径md5值_method"
-    content = tagFilter.filterTag(content,
+        content = tagFilter.filterTag(content,
         "widget", smarty_left_delimiter, smarty_right_delimiter,
         function (outter, attr, inner) {
             var matches = attr.match(nameReg),
@@ -291,6 +303,8 @@ function defineWidget(content, file, conf) {
 
                     return methodPrefix + info.quote + widgetName + info.rest + info.quote;
                 });
+            } else {
+                attr += ' method="' + widgetName + DEFAULT_METHOD_NAME + '"';
             }
 
             return smarty_left_delimiter +

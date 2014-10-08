@@ -12,6 +12,8 @@ var requireRegStr = commonReg.stringRegStr + "|" +
 var PREFIX = "__",
     SUFFIX = "__";
 
+var defaultDeps = ["global", "module", "exports", "require"];
+
 module.exports = function (content, file, conf) {
     var reg, deps, md5deps, args;
 
@@ -47,9 +49,9 @@ module.exports = function (content, file, conf) {
             return all;
         });
 
-        args = ["global", "module", "exports", "require"].concat(md5deps);
+        args = defaultDeps.concat(md5deps);
 
-        content = "define('" + file.getId() + "'," + JSON.stringify(deps) + ",function(" + args.join(", ") + "){\n\n" + content + "\n\n});";
+        content = "define('" + file.getId() + "'," + JSON.stringify(defaultDeps.concat(deps)) + ",function(" + args.join(", ") + "){\n\n" + content + "\n\n});";
 
     }
 

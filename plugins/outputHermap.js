@@ -135,6 +135,7 @@ var exports = module.exports = function (ret, conf, settings, opt) {
             });
             if (defines.length) {
                 pkg.file.setContent(content);
+                ret.pkg[pkg.file.subpath] = pkg.file;
 
                 //collect dependencies
                 deps = [];
@@ -207,5 +208,6 @@ var exports = module.exports = function (ret, conf, settings, opt) {
     if (herjson.release) {
         herjson.setContent(JSON.stringify(herMap, null, opt.optimize ? null : 4));
         fis.deploy(opt, [herjson]);
+
     }
 };

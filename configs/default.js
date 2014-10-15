@@ -31,9 +31,13 @@ module.exports = {
         },
         optimizer: {
             //tpl: 'smarty-xss,html-compress'
-            tpl: 'html-compress'
+            tpl: 'html-compress',
+            js: 'uglify-js',
+            css: 'clean-css',
+            png: 'png-compressor'
         },
-        prepackager: outputHermap
+        spriter: 'csssprites',
+        postpackager: outputHermap
     }
     //    modules: {
     //        parser: {

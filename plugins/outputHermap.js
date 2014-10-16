@@ -207,7 +207,7 @@ var exports = module.exports = function (ret, conf, settings, opt) {
     herjson = fis.file(root, (ns ? ns + '-' : '') + 'hermap.json');
     if (herjson.release) {
         herjson.setContent(JSON.stringify(herMap, null, opt.optimize ? null : 4));
-        fis.deploy(opt, [herjson]);
 
+        ret.pkg[herjson.subpath] = herjson;
     }
 };

@@ -30,8 +30,8 @@ module.exports = {
             //css: explander.css
         },
         optimizer: {
-            //tpl: 'smarty-xss,html-compress'
-            tpl: 'html-compress'
+            tpl: 'smarty-xss,html-compress'
+            //tpl: 'html-compress'
         },
         packager: null,
         postpackager: outputHermap

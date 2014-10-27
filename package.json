@@ -32,6 +32,7 @@
   "dependencies": {
     "her-fis": "^1.7.15",
     "fis-optimizer-html-compress": "0.0.7",
-	"fis-parser-less": "0.0.1"
+	"fis-optimizer-smarty-xss": "0.1.0",
+	"fis-parser-less": "^0.1.1"
   }
 }

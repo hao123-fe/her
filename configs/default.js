@@ -34,7 +34,7 @@ module.exports = {
             //tpl: 'html-compress'
         },
         packager: null,
-        postpackager: outputHermap
+        prepackager: outputHermap
     },
     //    modules: {
     //        parser: {

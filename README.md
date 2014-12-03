@@ -14,14 +14,11 @@ npm install
 ```
 添加bin目录到环境变量
 
-###2.安装her-pc-demo和her-smarty-plugin###
+###2.安装her-pc-demo###
+安装her-pc-demo之前，先安装fis的包管理工具lights http://lightjs.duapp.com/
 ```
-git clone https://github.com/hao123-dev/her-pc-demo
-git clone https://github.com/hao123-dev/her-smarty-plugin
-```
-将her-smarty-plugin/plugin目录复制到her-pc-demo/common
-```
-cp -r her-smarty-plugin/plugin her-pc-demo/common
+$ npm install -g lights #要求node版本在v0.10.27以上
+$ lights install her-pc-demo
 ```
 
 ###3.发布her-pc-demo###
@@ -31,6 +28,7 @@ her release -c
 cd ../home
 her release -c
 ```
+
 ###4.启动her-server###
 （需要java和php-cgi环境，安装方法见 http://fis.baidu.com/docs/api/cli.html#fis%20server%20%3Ccommand%3E%20%5Boptions%5D
 ```

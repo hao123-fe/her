@@ -3,9 +3,20 @@ var templateBuilder = require("../plugins/templateBuilder.js"),
     jsWrapper = require("../plugins/jsWrapper.js"),
     outputHermap = require("../plugins/outputHermap.js");
 
+//copy fis-plus default configs
 module.exports = {
     //静态文件目录
     statics: "/static",
+    templates: '/template',
+    namespace: '',
+    //fis server config
+    server: {
+        rewrite: true,
+        libs: 'pc',
+        clean: {
+            exclude: "fisdata**,smarty**,rewrite**,index.php**,WEB-INF**"
+        }
+    },
     modules: {
         parser: {
             less: "less"
@@ -108,6 +119,9 @@ module.exports = {
             }, {
                 reg: '${namespace}-map.json',
                 release: '/config/${namespace}-map.json'
+            }, {
+                reg: '${namespace}-hermap.json',
+                release: '/config/${namespace}-hermap.json'
             }, {
                 reg: /^.+$/,
                 release: '${statics}/${namespace}$&'

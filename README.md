@@ -14,6 +14,7 @@ $ npm install -g her
 
 ###2.安装her-pc-demo###
 安装her-pc-demo之前，先安装fis的包管理工具lights http://lightjs.duapp.com/
+注意：lights install下载文件到当前目录，可以cd到工作目录运行lights install
 ```
 $ npm install -g lights #要求node版本在v0.10.27以上
 $ lights install her-pc-demo
@@ -28,7 +29,7 @@ $ her release -c
 ```
 
 ###4.启动her-server###
-（需要java和php-cgi环境，安装方法见 http://fis.baidu.com/docs/api/cli.html#fis%20server%20%3Ccommand%3E%20%5Boptions%5D
+需要java和php-cgi环境，安装方法见 http://fis.baidu.com/docs/api/cli.html#fis%20server%20%3Ccommand%3E%20%5Boptions%5D
 ```
 $ her server init
 $ her server start -p 8089

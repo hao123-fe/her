@@ -36,6 +36,7 @@ $ her server start -p 8089
 ```
 (用8089端口是为了防止与fis server默认的8080端口冲突)
 浏览器将打开127.0.0.1:8089端口，即可看到her-pc-demo
+
 如果模板报错或者不能正确rewrite，可以尝试 
 ```
 $ her server open

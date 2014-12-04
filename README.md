@@ -8,9 +8,7 @@ Hao123 前端开发工具
 
 ###1.安装Her###
 ```
-$ git clone https://github.com/hao123-dev/her.git
-$ cd her
-$ npm install
+$ npm install -g her
 ```
 添加bin目录到环境变量
 

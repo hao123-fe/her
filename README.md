@@ -1,8 +1,11 @@
-her
+Her
 ===
 
-Hao123 前端开发工具
-基于FIS[http://fis.baidu.com/]
+Hao123 前端集成方案
+
+包括开发工具her和smarty运行环境[her-smarty-plugin](https://github.com/hao123-dev/her-smarty-plugin)
+
+基于[FIS](http://fis.baidu.com/)
 
 ##核心功能##
 ###1.页面分块BigPipe+pagelet###

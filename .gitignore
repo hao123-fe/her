@@ -1,0 +1,11 @@
+/.idea
+/.settings
+/.project
+/.tmp
+/node_modules
+tmp
+
+~*
+*.tmp
+*.swp
+.DS_Store

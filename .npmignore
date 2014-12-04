@@ -1,0 +1,15 @@
+/.idea
+/.settings
+/.project
+/.gitignore
+/.tmp
+/node_modules
+/test
+tmp
+
+
+~*
+*.cmd
+*.tmp
+*.swp
+.DS_Store

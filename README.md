@@ -4,6 +4,19 @@ her
 Hao123 前端开发工具
 基于FIS[http://fis.baidu.com/]
 
+##核心功能##
+###1.页面分块BigPipe+pagelet###
+pagelet将页面的dom，以及dom依赖的css、js分块收集，使用bigPipe控制按需输出，同时前端BigPipe可以实现异步渲染。
+
+###2.延迟渲染bigRender###
+页面加载的时候只渲染首屏内容，用户滚动页面的时候再渲染可见区域。可以有效提高首屏速度。
+
+###3.局部刷新Quickling###
+对于数据交互频繁的模块，可以通过BigPipe.fetch()实现局部刷新。对于开发者几乎是0成本。
+
+##适用场景##
+her适用于采用Smarty作为后端模板的PC和Mobile站点。
+
 ##安装使用##
 
 ###1.安装Her###

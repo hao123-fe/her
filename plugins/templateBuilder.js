@@ -2,8 +2,8 @@ var tagFilter = require("../plugins/tagFilter.js"),
     commonReg = require("../plugins/commonReg.js"),
     pregQuote = require("../plugins/pregQuote.js");
 
-var smarty_left_delimiter,
-    smarty_right_delimiter,
+var smarty_left_delimiter = fis.config.get("settings.smarty.left_delimiter") || "{",
+    smarty_right_delimiter = fis.config.get("settings.smarty.right_delimiter") || "}",
     fis_standard_map = fis.compile.lang;
 
 var stringRegStr = commonReg.stringRegStr,
@@ -57,9 +57,6 @@ function explandSmartyPathAttr(content, tagName, attrName) {
     var attrReg = new RegExp("((?:^|\\s)" +
         pregQuote(attrName) +
         "\\s*=\\s*)(([\"\']).*?\\3)", "ig");
-    smarty_left_delimiter = smarty_left_delimiter || fis.config.get("settings.smarty.left_delimiter") || "{";
-    smarty_right_delimiter = smarty_right_delimiter || fis.config.get("settings.smarty.right_delimiter") || "}";
-
     content = tagFilter.filterTag(content,
         tagName, smarty_left_delimiter, smarty_right_delimiter,
         function (outter, attr) {
@@ -98,9 +95,6 @@ function explandScriptRequirePath(content) {
         reg = new RegExp(stringRegStr + "|" +
             jscommentRegStr + "|" +
             requireRegStr, "g");
-
-    smarty_left_delimiter = smarty_left_delimiter || fis.config.get("settings.smarty.left_delimiter") || "{";
-    smarty_right_delimiter = smarty_right_delimiter || fis.config.get("settings.smarty.right_delimiter") || "}";
 
     content = tagFilter.filterBlock(content,
         "script", smarty_left_delimiter, smarty_right_delimiter,
@@ -169,9 +163,6 @@ function analyseScript(content, file, conf) {
         reg = new RegExp(stringRegStr + "|" +
             jscommentRegStr + "|" +
             requireRegStr, "g");
-
-    smarty_left_delimiter = smarty_left_delimiter || fis.config.get("settings.smarty.left_delimiter") || "{";
-    smarty_right_delimiter = smarty_right_delimiter || fis.config.get("settings.smarty.right_delimiter") || "}";
 
     content = tagFilter.filterBlock(content,
         "script",
@@ -265,9 +256,6 @@ function analyseScript(content, file, conf) {
 function defineWidget(content, file, conf) {
     var methodReg = new RegExp("((?:^|\\s)method\\s*=\\s*)(" + stringRegStr + ")"), //创建提取method方法的正则
         nameReg = new RegExp("(?:^|\\s)name\\s*=\\s*(" + stringRegStr + ")"); //匹配widget中name的正则
-
-    smarty_left_delimiter = smarty_left_delimiter || fis.config.get("settings.smarty.left_delimiter") || "{";
-    smarty_right_delimiter = smarty_right_delimiter || fis.config.get("settings.smarty.right_delimiter") || "}";
 
     //把define替换成function，name为"_standard路径md5值_method",如没有method则取默认值__main
     content = tagFilter.filterBlock(content,

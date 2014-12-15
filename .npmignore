@@ -5,8 +5,8 @@
 /.tmp
 /node_modules
 /test
+/tests
 tmp
-
 
 ~*
 *.cmd

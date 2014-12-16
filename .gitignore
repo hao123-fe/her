@@ -3,6 +3,8 @@
 /.project
 /.tmp
 /node_modules
+/tests/output
+/bin/her-test
 tmp
 
 ~*

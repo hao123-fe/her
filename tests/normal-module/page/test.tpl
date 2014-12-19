@@ -1,9 +1,13 @@
 This is "test.tpl";
+haha
 
-{widget name="test:widget/test-widget.tpl"}
+{widget name="../widget/test-widget.tpl"}
+
+{require name="../static/test.js"}
+{require name="/static/test.css"}
 
 {script}
-var test = require("/static/test.js");
+require("../static/test.js");
 {/script}
 
 <script runat="server">

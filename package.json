@@ -1,38 +1,38 @@
 {
-  "name": "her",
-  "version": "0.0.2",
-  "description": "Hao123 前端开发框架",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "bin": {
-    "her": "bin/her"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/hao123-dev/her.git"
-  },
-  "keywords": [
-    "her",
-    "fis",
-    "bigpipe",
-    "quickling",
-    "bigrender",
-    "pagelet",
-    "smarty",
-    "hao123"
-  ],
-  "author": "zhangyaunwei1988@gmail.com",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hao123-dev/her/issues"
-  },
-  "homepage": "https://github.com/hao123-dev/her",
-  "dependencies": {
-    "her-fis": "^1.7.15",
-    "fis-optimizer-html-compress": "0.0.7",
-	"fis-optimizer-smarty-xss": "0.1.0",
-	"fis-parser-less": "^0.1.1"
-  }
+    "name": "her",
+    "version": "0.0.2",
+    "description": "Hao123前端集成解决方案",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "bin": {
+        "her": "bin/her"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/hao123-dev/her.git"
+    },
+    "keywords": [
+        "her",
+        "fis",
+        "bigpipe",
+        "quickling",
+        "bigrender",
+        "pagelet",
+        "smarty",
+        "hao123"
+    ],
+    "author": "zhangyaunwei1988@gmail.com",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/hao123-dev/her/issues"
+    },
+    "homepage": "https://github.com/hao123-dev/her",
+    "dependencies": {
+        "fis": "latest",
+        "fis-optimizer-html-compress": "0.0.7",
+        "fis-optimizer-smarty-xss": "0.1.0",
+        "fis-parser-less": "^0.1.1"
+    }
 }

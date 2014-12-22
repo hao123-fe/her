@@ -88,9 +88,10 @@ module.exports = function (content, file, conf) {
         });
 
         //处理同步require
-        for (var id in requires.sync) {
-            file.addRequire(id);
-        }
+        // for (var id in requires.sync) {
+    //     file.addRequire(id);
+    // }
+
 
         //处理异步require
         for (var id in requires.async) {

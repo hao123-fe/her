@@ -1,4 +1,5 @@
-var fis = module.exports = require('her-fis');
+//var fis = module.exports = require('her-fis');
+var fis = module.exports = require('fis');
 
 fis.cli.name = 'her';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');

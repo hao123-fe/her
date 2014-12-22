@@ -35,14 +35,14 @@ module.exports = {
             ],
             //TOOD her 主要处理点
             js: [
-                requireAnalyze,
-                jsWrapper
-            ]
-            //css: explander.css
+                    requireAnalyze,
+                    jsWrapper
+                ]
+                //css: explander.css
         },
         optimizer: {
             tpl: 'smarty-xss,html-compress'
-            //tpl: 'html-compress'
+                //tpl: 'html-compress'
         },
         packager: null,
         prepackager: outputHermap
@@ -135,10 +135,10 @@ module.exports = {
                 RIGHT_DELIMITER: '#>'
             }
         }
-//        ,postprocessor: {
-//            jswrapper: {
-//                type: 'amd'
-//            }
-//        }
+        //        ,postprocessor: {
+        //            jswrapper: {
+        //                type: 'amd'
+        //            }
+        //        }
     }
 };

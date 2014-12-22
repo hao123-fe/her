@@ -1,10 +1,10 @@
 fis.config.merge({
-    namespace : 'test'
-    ,deploy : {
-        test : {
+    namespace: 'test',
+    deploy: {
+        test: {
             //from参数省略，表示从发布后的根目录开始上传
             //发布到当前项目的上一级的output目录中
-            to : '../output'
+            to: '../output'
         }
     }
     // ,pack : {
@@ -18,10 +18,12 @@ fis.config.merge({
     //         'widget/**.js'
     //     ]
     // }
-    // ,settings: {
-    //     smarty: {
-    //         left_delimiter: "{%",
-    //         right_delimiter: "%}"
-    //     }
-    // }
+    ,
+    settings: {
+        smarty: {
+            left_delimiter: "{",
+            right_delimiter: "}"
+        }
+    }
+
 });

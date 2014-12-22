@@ -1,10 +1,15 @@
 fis.config.merge({
-    namespace: 'test',
+    namespace: 'fisp-test',
     deploy: {
         test: {
             //from参数省略，表示从发布后的根目录开始上传
             //发布到当前项目的上一级的output目录中
             to: '../output'
+        }
+    },
+    modules: {
+        preprocessor: {
+            tpl: 'fispadaptor'
         }
     },
     // pack : {

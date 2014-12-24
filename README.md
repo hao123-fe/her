@@ -38,19 +38,22 @@ $ npm install -g her
 添加bin目录到环境变量
 
 ###2.安装her-pc-demo###
-~~安装her-pc-demo之前，先安装fis的包管理工具lights http://lightjs.duapp.com/~~
-~~注意：lights install下载文件到当前目录，可以cd到工作目录运行lights install~~
+安装her-pc-demo之前，先安装fis的包管理工具lights http://lightjs.duapp.com/
+
+注意：lights install下载文件到当前目录，可以cd到工作目录运行lights install
+
+```
+$ npm install -g lights #要求node版本在v0.10.27以上
+$ lights install her-pc-demo
+```
+
 <!--
-```
-$ ### npm install -g lights #要求node版本在v0.10.27以上
-$ ### lights install her-pc-demo
-```
--->
 因为her-pc-demo涉及到后端运行时部分，目前正在努力开源中。
 
 目前仅提供百度内部访问，地址 http://fe.qch.me/store/her-pc-demo.zip
 
 下载后解压即可~
+-->
 
 ###3.发布her-pc-demo###
 ```

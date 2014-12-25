@@ -1,6 +1,8 @@
 This is "test.tpl";
 haha
 
+{html framework="../static/lib.js"}
+
 {widget name="../widget/test-widget.tpl"}
 
 {require name="../static/test.js"}

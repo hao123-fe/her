@@ -1,5 +1,7 @@
+fis.config.get('modules.preprocessor.tpl').unshift('fispadaptor')
+
 fis.config.merge({
-    namespace: 'test',
+    namespace: 'fisp-test',
     deploy: {
         test: {
             //from参数省略，表示从发布后的根目录开始上传

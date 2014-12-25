@@ -1,7 +1,7 @@
-var templateBuilder = require("../plugins/templateBuilder.js"),
-    requireAnalyze = require("../plugins/requireAnalyze.js"),
-    jsWrapper = require("../plugins/jsWrapper.js"),
-    outputHermap = require("../plugins/outputHermap.js");
+var templateBuilder = require("../plugins/templateBuilder.js");
+var requireAnalyze = require("../plugins/requireAnalyze.js");
+var jsWrapper = require("../plugins/jsWrapper.js");
+var outputHermap = require("../plugins/outputHermap.js");
 
 //copy fis-plus default configs
 module.exports = {
@@ -134,6 +134,10 @@ module.exports = {
                 LEFT_DELIMITER: '<#',
                 RIGHT_DELIMITER: '#>'
             }
+        },
+        smarty: {
+            left_delimiter: "{%",
+            right_delimiter: "%}"
         }
         //        ,postprocessor: {
         //            jswrapper: {

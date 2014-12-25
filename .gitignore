@@ -4,6 +4,7 @@
 /.tmp
 /node_modules
 /tests/output
+/tests/pc-demo
 /bin/her-test
 tmp
 

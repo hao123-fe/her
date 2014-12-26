@@ -9,6 +9,9 @@ Her是基于FIS编译工具和smarty plugin开发的一套前端集成解决方�
 Her的开发规范兼容fisp，分为编译工具her和后端smarty运行时以及前端JS运行时。通过对页面进行细粒度分块，收集区块的dom、js、css等资源，通过后端bigPipe控制按需输出，前端BigPipe按需渲染，实现最大限度的前端性能优化。
 
 
+Her已经兼容fisp，[FISP模块迁移文档](https://github.com/hao123-dev/her-preprocessor-fispadaptor)
+
+
 ##核心参考##
 [BigPipe: Pipelining web pages for high performance](https://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919)
 

@@ -6,7 +6,7 @@ Hao123 前端集成方案
 Her是基于FIS编译工具和smarty plugin开发的一套前端集成解决方案。实现了基于smarty运行时的bigpipe输出，极大的优化了前端性能。
 
 
-Her的开发规范兼容fisp，分为编译工具her和后端smarty运行时以及前端JS运行时。通过对页面进行细粒度分块，收集区块的dom、js、css等资源，通过后端bigPipe控制按需输出，前端BigPipe按需渲染，实现最大限度的前端性能优化。
+Her的开发规范兼容fisp，分为编译工具her和后端smarty运行时以及前端JS运行时。通过对页面进行细粒度分块，收集区块的dom、js、css等资源，通过后端controller控制按需输出，前端BigPipe模块按需渲染，实现最大限度的前端性能优化。
 
 
 Her已经兼容fisp，[FISP模块迁移文档](https://github.com/hao123-dev/her-preprocessor-fispadaptor)
@@ -18,8 +18,8 @@ Her已经兼容fisp，[FISP模块迁移文档](https://github.com/hao123-dev/her
 [FIS](http://fis.baidu.com/)
 
 ##核心功能##
-###1.页面分块BigPipe+pagelet###
-pagelet将页面的dom，以及dom依赖的css、js分块收集，使用bigPipe控制按需输出，同时前端BigPipe可以实现异步渲染。
+###1.页面分块pagelet###
+pagelet将页面的dom，以及dom依赖的css、js分块收集，使用controller控制按需输出，实现了类bigpipe的分块输出，前端BigPipe模块可以实现异步渲染，优化渲染速度和性能。
 
 ###2.延迟渲染bigRender###
 页面加载的时候只渲染首屏内容，用户滚动页面的时候再渲染可见区域。可以有效提高首屏速度。

@@ -1,6 +1,6 @@
 {
     "name": "her",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Hao123前端集成解决方案",
     "main": "index.js",
     "scripts": {
@@ -23,16 +23,16 @@
         "smarty",
         "hao123"
     ],
-    "author": "zhangyaunwei1988@gmail.com",
+    "author": "zhangyaunwei1988@gmail.com,hao123-her@baidu.com",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/hao123-fe/her/issues"
     },
     "homepage": "https://github.com/hao123-fe/her",
     "dependencies": {
-        "fis": "latest",
+        "fis": "1.8.10",
         "fis-optimizer-html-compress": "0.0.7",
         "fis-optimizer-smarty-xss": "0.1.0",
-        "fis-parser-less": "^0.1.1"
+        "fis-parser-less": "0.1.2"
     }
 }

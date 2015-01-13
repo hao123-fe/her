@@ -1,5 +1,8 @@
 Her
 ===
+[![npm](https://img.shields.io/npm/v/her.svg?style=flat-square)](https://www.npmjs.com/package/her)
+[![npm](https://img.shields.io/npm/dm/her.svg?style=flat-square)](https://www.npmjs.com/package/her)
+[![npm](https://img.shields.io/npm/l/her.svg?style=flat-square)](https://www.npmjs.com/package/her)
 
 Hao123 前端集成方案
 

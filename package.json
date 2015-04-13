@@ -23,16 +23,16 @@
         "smarty",
         "hao123"
     ],
-    "author": "zhangyaunwei1988@gmail.com,hao123-her@baidu.com",
+    "author": "zhangyaunwei1988@gmail.com,ustbhuangyi@gmail.com,hao123-her@baidu.com",
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/hao123-fe/her/issues"
     },
     "homepage": "https://github.com/hao123-fe/her",
     "dependencies": {
-        "fis": "1.8.10",
+        "fis": "1.9.13",
         "fis-optimizer-html-compress": "0.0.7",
-        "fis-optimizer-smarty-xss": "0.1.0",
+        "fis-optimizer-smarty-xss": "0.1.3",
         "fis-parser-less": "0.1.2"
     }
 }

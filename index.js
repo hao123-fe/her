@@ -3,6 +3,7 @@ var fis = module.exports = require('fis');
 
 fis.cli.name = 'her';
 fis.cli.info = fis.util.readJSON(__dirname + '/package.json');
+fis.cli.version = require('./version.js');
 
 fis.require.prefixes = ['her', 'fis'];
 

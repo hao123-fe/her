@@ -41,22 +41,12 @@ $ npm install -g her
 添加bin目录到环境变量
 
 ###2.安装her-pc-demo###
-安装her-pc-demo之前，先安装fis的包管理工具lights http://lightjs.duapp.com/
 
-注意：lights install下载文件到当前目录，可以cd到工作目录运行lights install
+cd 到工作目录运行如下命令
 
 ```
-$ npm install -g lights #要求node版本在v0.10.27以上
-$ lights install her-pc-demo
+$ git clone git@github.com:hao123-fe/her-pc-demo.git
 ```
-
-<!--
-因为her-pc-demo涉及到后端运行时部分，目前正在努力开源中。
-
-目前仅提供百度内部访问，地址 http://fe.qch.me/store/her-pc-demo.zip
-
-下载后解压即可~
--->
 
 ###3.发布her-pc-demo###
 ```
@@ -67,7 +57,8 @@ $ her release -c
 ```
 
 ###4.启动her-server###
-需要java和php-cgi环境，安装方法见 http://fis.baidu.com/docs/api/cli.html#fis%20server%20%3Ccommand%3E%20%5Boptions%5D
+如果需要本地调试，则需要java和php-cgi环境，
+安装方法见 http://fis.baidu.com/docs/api/cli.html#fis%20server%20%3Ccommand%3E%20%5Boptions%5D
 ```
 $ her server init ##重要，会安装server需要的模块
 $ her server start -p 8089 ##用8089端口防止与fis server默认的8080端口冲突
@@ -78,4 +69,4 @@ $ her server start -p 8089 ##用8089端口防止与fis server默认的8080端口
 ```
 $ her server open
 ```
-打开www目录，删除www目录下面的所有内容，然后再执行上面的命令
+打开www目录，删除www目录下面的所有内容，重新发布her-pc-demo，然后再执行上面的命令

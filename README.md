@@ -17,6 +17,8 @@ Her已经兼容fisp，[FISP模块迁移文档](https://github.com/hao123-dev/her
 
 [FIS](http://fis.baidu.com/)
 
+[Her运行时源码](https://github.com/hao123-fe/her-runtime)
+
 ##核心功能##
 ###1.页面分块pagelet###
 pagelet将页面的dom，以及dom依赖的css、js分块收集，使用controller控制按需输出，实现了类bigpipe的分块输出，前端BigPipe模块可以实现异步渲染，优化渲染速度和性能。

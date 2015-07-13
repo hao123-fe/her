@@ -47,7 +47,7 @@ $ npm install -g her
 cd 到工作目录运行如下命令
 
 ```
-$ git clone git@github.com:hao123-fe/her-pc-demo.git
+$ git clone https://github.com/hao123-fe/her-pc-demo.git
 ```
 
 ###3.发布her-pc-demo###

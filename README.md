@@ -29,7 +29,7 @@ pagelet将页面的dom，以及dom依赖的css、js分块收集，使用controll
 ###3.局部刷新Quickling###
 对于数据交互频繁的模块，可以通过BigPipe.fetch()实现局部刷新。对于开发者几乎是0成本。
 ### WIKI ###
-https://github.com/hao123-fe/her/wiki/03-01.Smarty%E6%A8%A1%E6%9D%BF
+https://github.com/hao123-fe/her/wiki/02-01.Smarty%E6%A8%A1%E6%9D%BF
 
 ##适用场景##
 her适用于采用Smarty作为后端模板的PC和Mobile站点。

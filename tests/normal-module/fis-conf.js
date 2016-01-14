@@ -7,17 +7,14 @@ fis.config.merge({
             to: '../output'
         }
     },
-    // pack : {
-    //     'static/pkg/aio.css' : [
-    //         'static/lib/css/bootstrap.css',
-    //         'static/lib/css/bootstrap-responsive.css',
-    //         'widget/**.css'
-    //     ],
-    //     'static/pkg/aio.js' : [
-    //         'static/lib/js/jquery-1.10.1.js',
-    //         'widget/**.js'
-    //     ]
-    // },
+    pack : {
+        'static/pkg/test.css' : [
+            'static/test.css'
+        ],
+        'static/pkg/test_copy.css' : [
+            'static/test_copy.css'
+        ]
+    },
     roadmap: {
         path: [{
             reg: /^\/widget\/(.*\.tpl)$/i,

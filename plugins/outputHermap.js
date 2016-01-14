@@ -152,9 +152,13 @@ var exports = module.exports = function (ret, conf, settings, opt) {
             requireAsyncMap[id] = true;
           }
         });
-        herId = fis.util.md5(content);
+
+        // 为了防止内容相同的不同defines生成相同的ID, md5加入了defines
+        herId = [fis.util.md5(content), fis.util.md5(defines.join(','), 4)].join('_');
         //处理css
         if (pkg.file.isCssLike) {
+          // TODO: 如何使pkg file的md5与生成pkgID时保持一致
+          // 同file, css hook在content之后
           content += "\n" + ".css_" + herId + "{height:88px}";
           pkg.file.setContent(content);
         }
@@ -167,7 +171,6 @@ var exports = module.exports = function (ret, conf, settings, opt) {
         herRes.defines = defines;
         herRes.requires = deps;
         herRes.requireAsyncs = asyncs;
-
       }
     });
   }
@@ -181,8 +184,11 @@ var exports = module.exports = function (ret, conf, settings, opt) {
       //生成herMap
       if (file.isJsLike || file.isCssLike) {
         content = file.getContent();
-        herId = fis.util.md5(content);
-        //处理css
+
+        // 为了防止内容相同的不同defines生成相同的ID, md5加入了defines
+        // herId = fis.util.md5(content);
+        herId = [fis.util.md5(content), fis.util.md5(file.id, 4)].join('_');
+        // 处理css
         if (file.isCssLike) {
           content += "\n" + ".css_" + herId + "{height:88px}";
           file.setContent(content);

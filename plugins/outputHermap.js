@@ -29,6 +29,8 @@ var exports = module.exports = function (ret, conf, settings, opt) {
     ns = fis.config.get('namespace'), //namespace
     pkgMap, packed, root, hit, pack;
 
+    conf = fis.config.get('autopack') ? fis.config.get('pack') : conf;
+    fis.config.get('autopack') && console.log(conf);
   //如果打包
   if (opt.pack) {
     pkgMap = {};

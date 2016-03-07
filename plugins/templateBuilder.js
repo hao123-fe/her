@@ -369,3 +369,4 @@ exports.replaceScriptTag = replaceScriptTag;
 exports.explandPath = explandPath;
 exports.analyseScript = analyseScript;
 exports.defineWidget = defineWidget;
+exports.analyseSmartyRequire = analyseSmartyRequire;

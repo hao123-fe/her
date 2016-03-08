@@ -236,11 +236,16 @@ function analyseScript(content, file, conf) {
                 });
 
             var arr, i;
+            var info;
 
             arr = [];
             for (i in requires.sync) {
                 if (requires.sync.hasOwnProperty(i)) {
                     arr.push(i);
+
+		    // 添加tpl对js的依赖关系
+                    info = fis.uri.getId(i, file.dirname);
+                    file.addRequire(info.id);
                 }
             }
             attr += " sync=[" + arr.join(",") + "]";
@@ -253,7 +258,8 @@ function analyseScript(content, file, conf) {
             }
             attr += " async=[" + arr.join(",") + "]";
 
-            return smarty_left_delimiter +
+            
+            var result = smarty_left_delimiter +
                 "script" +
                 attr +
                 smarty_right_delimiter +
@@ -261,6 +267,7 @@ function analyseScript(content, file, conf) {
                 smarty_left_delimiter +
                 "/script" +
                 smarty_right_delimiter;
+            return result;
         });
     return content;
 }
@@ -298,33 +305,62 @@ function defineWidget(content, file, conf) {
         });
 
     //把widget中的method替换为为"_standard路径md5值_method"
-    content = tagFilter.filterTag(content,
-        "widget", smarty_left_delimiter, smarty_right_delimiter,
-        function(outter, attr, inner) {
-            var matches = attr.match(nameReg),
-                info, widgetName;
-            if (!matches) {
-                throw new Error("widget must define name attribute");
-            } else {
-                info = fis.util.stringQuote(matches[1]);
-                widgetName = PRFIX + fis.util.md5(info.rest, 32) + SUFFIX;
-            }
-            if (methodReg.test(attr)) {
-                attr = attr.replace(methodReg, function(all, methodPrefix, methodValue) {
-                    info = fis.util.stringQuote(methodValue);
+    file.extras.widget = []
+    content = tagFilter.filterTag(content, "widget", smarty_left_delimiter, smarty_right_delimiter, function(outter, attr, inner) {
+        var matches = attr.match(nameReg),
+            info, widgetName;
+        if (!matches) {
+            throw new Error("widget must define name attribute");
+        } else {
+            info = fis.util.stringQuote(matches[1]);
 
-                    return methodPrefix + info.quote + widgetName + info.rest + info.quote;
-                });
-            } else {
-                attr += ' method="' + widgetName + DEFAULT_METHOD_NAME + '"';
-            }
+            widgetName = PRFIX + fis.util.md5(info.rest, 32) + SUFFIX;
+        }
 
-            return smarty_left_delimiter +
-                "widget" +
-                attr +
-                smarty_right_delimiter;
-        });
+        // 添加tpl对tpl的依赖关系
+        var id = fis.uri.getId(matches[1], file.dirname).id;
+        file.addRequire(id);
 
+        if (methodReg.test(attr)) {
+            attr = attr.replace(methodReg, function(all, methodPrefix, methodValue) {
+                info = fis.util.stringQuote(methodValue);
+                return methodPrefix + info.quote + widgetName + info.rest + info.quote;
+            });
+
+        } else {
+            attr += ' method="' + widgetName + DEFAULT_METHOD_NAME + '"';
+        }
+
+        return smarty_left_delimiter +
+            "widget" +
+            attr +
+            smarty_right_delimiter;
+    });
+    
+    //如果没有异步依赖，删除多余的对象
+    if (file.extras.widget.length == 0) {
+        delete file.extras.widget;
+    }
+
+    return content;
+}
+
+// smarty的<%require%>分析
+function analyseSmartyRequire(content, file, conf) {
+    setDelimiter();
+
+    var nameReg = new RegExp("(?:^|\\s)name\\s*=\\s*(" + stringRegStr + ")"); //匹配require中name的正则
+
+    content = tagFilter.filterTag(content, "require", smarty_left_delimiter, smarty_right_delimiter, function (outter, attr, inner) {
+        // console.log(file.id, attr);
+        var matches = attr.match(nameReg);
+        
+        // 添加tpl对<%require%>的依赖关系
+        var id = fis.uri.getId(matches[1], file.dirname).id;
+        file.addRequire(id);
+
+        return outter;
+    });
 
     return content;
 }
@@ -333,3 +369,4 @@ exports.replaceScriptTag = replaceScriptTag;
 exports.explandPath = explandPath;
 exports.analyseScript = analyseScript;
 exports.defineWidget = defineWidget;
+exports.analyseSmartyRequire = analyseSmartyRequire;

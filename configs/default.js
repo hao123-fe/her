@@ -1,6 +1,7 @@
 var templateBuilder = require("../plugins/templateBuilder.js");
 var requireAnalyze = require("../plugins/requireAnalyze.js");
 var jsWrapper = require("../plugins/jsWrapper.js");
+var autoPackAnalyze = require("../plugins/autoPackAnalyze.js");
 var outputHermap = require("../plugins/outputHermap.js");
 
 //copy fis-plus default configs
@@ -30,6 +31,7 @@ module.exports = {
         },
         postprocessor: {
             tpl: [
+                templateBuilder.analyseSmartyRequire,
                 templateBuilder.analyseScript,
                 templateBuilder.defineWidget
             ],
@@ -44,8 +46,11 @@ module.exports = {
             tpl: 'smarty-xss,html-compress'
                 //tpl: 'html-compress'
         },
-        packager: null,
-        prepackager: outputHermap
+        prepackager: [
+            autoPackAnalyze,
+            outputHermap
+        ],
+        packager: null
     },
     //    modules: {
     //        parser: {

@@ -1,6 +1,6 @@
 {
   "name": "her",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Hao123前端集成解决方案",
   "main": "index.js",
   "scripts": {
@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/hao123-fe/her",
   "dependencies": {
-    "fis": "^1.9.24",
+    "fis": "^1.9.44",
     "fis-optimizer-html-compress": "^0.0.7",
     "fis-optimizer-smarty-xss": "^0.1.3",
     "fis-parser-less": "^0.1.2"

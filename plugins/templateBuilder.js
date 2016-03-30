@@ -242,10 +242,12 @@ function analyseScript(content, file, conf) {
             for (i in requires.sync) {
                 if (requires.sync.hasOwnProperty(i)) {
                     arr.push(i);
-
-		    // 添加tpl对js的依赖关系
-                    info = fis.uri.getId(i, file.dirname);
-                    file.addRequire(info.id);
+                    
+                    // autopack——添加tpl对script js的依赖关系
+                    if (fis.config.get('autopack')) {
+                        info = fis.uri.getId(i, file.dirname);
+                        file.addRequire(info.id);
+                    }
                 }
             }
             attr += " sync=[" + arr.join(",") + "]";
@@ -305,7 +307,6 @@ function defineWidget(content, file, conf) {
         });
 
     //把widget中的method替换为为"_standard路径md5值_method"
-    file.extras.widget = []
     content = tagFilter.filterTag(content, "widget", smarty_left_delimiter, smarty_right_delimiter, function(outter, attr, inner) {
         var matches = attr.match(nameReg),
             info, widgetName;
@@ -317,9 +318,11 @@ function defineWidget(content, file, conf) {
             widgetName = PRFIX + fis.util.md5(info.rest, 32) + SUFFIX;
         }
 
-        // 添加tpl对tpl的依赖关系
-        var id = fis.uri.getId(matches[1], file.dirname).id;
-        file.addRequire(id);
+        if (fis.config.get('autopack')) {
+            // 添加tpl对widget的依赖关系
+            var id = fis.uri.getId(matches[1], file.dirname).id;
+            file.addRequire(id);
+        }
 
         if (methodReg.test(attr)) {
             attr = attr.replace(methodReg, function(all, methodPrefix, methodValue) {
@@ -336,17 +339,16 @@ function defineWidget(content, file, conf) {
             attr +
             smarty_right_delimiter;
     });
-    
-    //如果没有异步依赖，删除多余的对象
-    if (file.extras.widget.length == 0) {
-        delete file.extras.widget;
-    }
 
     return content;
 }
 
 // smarty的<%require%>分析
 function analyseSmartyRequire(content, file, conf) {
+    if (!fis.config.get('autopack')) {
+        return content;
+    }
+
     setDelimiter();
 
     var nameReg = new RegExp("(?:^|\\s)name\\s*=\\s*(" + stringRegStr + ")"); //匹配require中name的正则

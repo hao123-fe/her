@@ -12,9 +12,9 @@ The current implement is for PHP + Smarty. And this repo is the code of the buil
 
 Hao123前端高性能渲染解决方案(Her)是一个为提升页面加载和渲染性能而设计的通用解决方案，实现了 Pagelet 和类 Bigpipe 输出渲染控制。
 
-Her 由编译工具、后端输出控制和前端渲染控制组成，目前提供了基于 PHP 和 Smarty 的实现。其中编译工具基于 [FIS](http://fis.baidu.com/) 实现，继承了 FIS 强大的前端构建能力；后端输出控制提供了`FirstController|QuicklingController|NoScriptController` 3种输出控制器，分别处理基础页请求、局部 Quickling 请求和 NoScript 请求，其中 `FirstController` 提供 `server|lazy|default|none` 4种输出模式，方便实现首屏优化、模块开关等；前端渲染控制实现了资源加载、Pagelet 按需渲染和动态打包(planning)。通过对页面进行细粒度分块，收集区块的 HTML 片段、JS、CSS 等资源，后端输出控制和前端按需渲染，极大的增强了前端性能优化的能力。其架构图如下：
-
-![Her系统架构图](http://s0.hao123img.com/res/her/iframework.png)
+Her 由编译工具、后端输出控制和前端渲染控制组成，目前提供了基于 PHP 和 Smarty 的实现。其中编译工具基于 [FIS](http://fis.baidu.com/) 实现，继承了 FIS 强大的前端构建能力；后端输出控制提供了`FirstController|QuicklingController|NoScriptController` 3种输出控制器，分别处理基础页请求、局部 Quickling 请求和 NoScript 请求，其中 `FirstController` 提供 `server|lazy|default|none` 4种输出模式，方便实现首屏优化、模块开关等；前端渲染控制实现了资源加载、Pagelet 按需渲染和动态打包(planning)。通过对页面进行细粒度分块，收集区块的 HTML 片段、JS、CSS 等资源，后端输出控制和前端按需渲染，极大的增强了前端性能优化的能力。其设计方案和架构图如下：
+![Her 设计方案](http://s0.hao123img.com/res/her/her_runtime.jpg)
+![Her 系统架构图](http://s0.hao123img.com/res/her/iframework.png)
 
 **本仓库为 Her 的构建工具代码，前后端运行时代码见 [her-runtime](https://github.com/hao123-fe/her-runtime)**
 

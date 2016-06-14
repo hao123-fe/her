@@ -18,11 +18,11 @@ Her 由编译工具、后端输出控制和前端渲染控制组成，目前提�
 
 **本仓库为 Her 的构建工具代码，前后端运行时代码见 [her-runtime](https://github.com/hao123-fe/her-runtime)**
 
-## [Docs](https://github.com/hao123-fe/her/wiki) && [Get Start](https://github.com/hao123-fe/her/wiki/1.Get-start) 
+## [Docs](https://github.com/hao123-fe/her/wiki) / [Get Start](https://github.com/hao123-fe/her/wiki/1.Get-start) 
 
 Her已经兼容fis-plus，请查看 [FISP模块迁移文档](https://github.com/hao123-dev/her-preprocessor-fispadaptor)
 
-## 核心功能 ##
+## 核心能力 ##
 
 Her 通过实现以下核心能力来解决前端性能优化：
 
@@ -40,6 +40,13 @@ Her 通过实现以下核心能力来解决前端性能优化：
 
 ## 适用场景 ##
 Her 适用于采用 Smarty 作为后端模板的 PC 和 Mobile 页面。
+
+## 案例
+[![hao123新首页](https://gss2.bdstatic.com/5eR1dDebRNRTm2_p8IuM_a/res/img/richanglogo168_24.png](http://www.hao123.com/newindex)
+
+[hao123游戏](https://game.hao123.com/)
+
+[hao到家](http://life.hao123.com/)
 
 ## 参考 ##
 [BigPipe: Pipelining web pages for high performance](https://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919)

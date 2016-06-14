@@ -42,11 +42,10 @@ Her 通过实现以下核心能力来解决前端性能优化：
 Her 适用于采用 Smarty 作为后端模板的 PC 和 Mobile 页面。
 
 ## 案例
-[![hao123新首页](https://gss2.bdstatic.com/5eR1dDebRNRTm2_p8IuM_a/res/img/richanglogo168_24.png](http://www.hao123.com/newindex)
-
-[hao123游戏](https://game.hao123.com/)
-
-[hao到家](http://life.hao123.com/)
+[![hao123新首页](https://gss2.bdstatic.com/5eR1dDebRNRTm2_p8IuM_a/res/img/richanglogo168_24.png)](http://www.hao123.com/newindex)
+[![hao123游戏](https://gss2.bdstatic.com/5eR1dDebRNRTm2_p8IuM_a/res/her/game-logo.jpg)](https://game.hao123.com/)
+[![hao到家](https://gss2.bdstatic.com/5eR1dDebRNRTm2_p8IuM_a/resource/life/img/o2o/logo.1c06601.png)](http://life.hao123.com/)
+[![hao123新闻](https://gss2.bdstatic.com/5eR1dDebRNRTm2_p8IuM_a/resource/tuijian/img/logo.c877631.png)](http://tuijian.hao123.com/)
 
 ## 参考 ##
 [BigPipe: Pipelining web pages for high performance](https://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919)

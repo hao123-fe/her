@@ -1,9 +1,30 @@
 {
   "name": "her",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A High-performence Enhanced Rendering solution - Hao123前端高性能渲染解决方案",
+  "keywords": [
+    "herJS",
+    "fis",
+    "bigpipe",
+    "quickling",
+    "bigrender",
+    "lazyrender",
+    "pagelet",
+    "high-performence rendering"
+  ],
+  "homepage": "https://hao123-fe.github.io/her",
+  "bugs": {
+    "url": "https://github.com/hao123-fe/her/issues"
+  },
+  "license": "MIT",
+  "author": "hao123-fe <hao123-her@baidu.com>",
+  "contributors": [
+    "zhangwentao <zhangwentao@baidu.com>",
+    "zhangyuanwei <zhangyaunwei1988@gmail.com>",
+    "ustbhuangyi <ustbhuangyi@gmail.com>",
+    "caoyu <caoyu03@gmail.com>"
+  ],
   "main": "index.js",
-  "scripts": {},
   "bin": {
     "her": "bin/her"
   },
@@ -11,27 +32,6 @@
     "type": "git",
     "url": "https://github.com/hao123-fe/her.git"
   },
-  "keywords": [
-    "herJS",
-    "fis",
-    "bigpipe",
-    "quickling",
-    "bigrender",
-    "pagelet",
-    "high-performence",
-    "rendering"
-  ],
-  "author": "hao123-fe <hao123-her@baidu.com>",
-  "contributors": [
-    "zhangwentao <zhangwentao@baidu.com>",
-    "zhangyuanwei <zhangyaunwei1988@gmail.com>",
-    "ustbhuangyi <ustbhuangyi@gmail.com>"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/hao123-fe/her/issues"
-  },
-  "homepage": "https://hao123-fe.github.io/her",
   "dependencies": {
     "fis": "^1.9.44",
     "fis-optimizer-html-compress": "^0.0.7",

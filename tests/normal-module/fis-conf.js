@@ -8,7 +8,7 @@ fis.config.merge({
         }
     },
     pack : {
-        'static/pkg/test.css' : [
+        'static/pkg/test.css?__inline' : [
             'static/test.css'
         ],
         'static/pkg/test_copy.css' : [

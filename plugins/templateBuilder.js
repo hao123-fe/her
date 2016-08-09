@@ -14,18 +14,28 @@ var DEFAULT_METHOD_NAME = "__main",
     SUFFIX = "_";
 
 function setDelimiter() {
-        smarty_left_delimiter = fis.config.get("settings.smarty.left_delimiter") || "{";
-        smarty_right_delimiter = fis.config.get("settings.smarty.right_delimiter") || "}";
-    }
-    /**
-     * replaceScriptTag 将<script runat="server"></script> 替换为 {script}{/script}
-     *
-     * @param content $content
-     * @param file $file
-     * @param conf $conf
-     * @access public
-     * @return void
-     */
+    smarty_left_delimiter = fis.config.get("settings.smarty.left_delimiter") || "{";
+    smarty_right_delimiter = fis.config.get("settings.smarty.right_delimiter") || "}";
+}
+
+function getSmartyContent(tag, attr, content) {
+    setDelimiter();
+    return [
+        smarty_left_delimiter, tag, attr, smarty_right_delimiter,
+            content,
+        smarty_left_delimiter, '/', tag, smarty_right_delimiter
+    ].join('');
+}
+
+/**
+ * replaceScriptTag 将<script runat="server"></script> 替换为 {script}{/script}
+ *
+ * @param content $content
+ * @param file $file
+ * @param conf $conf
+ * @access public
+ * @return void
+ */
 function replaceScriptTag(content, file, conf) {
     setDelimiter();
     var runAtServerReg = /(?:^|\s)runat\s*=\s*(["'])server\1/;
@@ -59,7 +69,6 @@ function replaceScriptTag(content, file, conf) {
 function explandSmartyPathAttr(content, tagName, attrName, file) {
     // /((?:^|\s)name\s*=\s*)((["']).*?\3)/
     setDelimiter();
-
     var attrReg = new RegExp("((?:^|\\s)" +
         pregQuote(attrName) +
         "\\s*=\\s*)(([\"\']).*?\\3)", "ig");
@@ -170,17 +179,24 @@ function analyseScript(content, file, conf) {
     var requireRegStr = "((?:[^\\$\\.]|^)\\brequire(?:\\s*\\.\\s*(async|defer))?\\s*\\(\\s*)(" +
         stringRegStr + "|" +
         jsStringArrayRegStr + ")",
-
         //优先匹配字符串和注释
         reg = new RegExp(stringRegStr + "|" +
             jscommentRegStr + "|" +
             requireRegStr, "g");
 
+    // 创建提取 walked 方法的正则
+    var asyncReg = new RegExp("((?:^|\\s)async\\s*)");
+    var syncReg = new RegExp("((?:^|\\s)sync\\s*)");
     content = tagFilter.filterBlock(content,
         "script",
         smarty_left_delimiter,
         smarty_right_delimiter,
         function(outter, attr, inner) {
+            
+            if (asyncReg.test(attr) && syncReg.test(attr)) {
+                return getSmartyContent('script', attr, inner);
+            }
+
             var requires = {
                 sync: {},
                 async: {}
@@ -260,16 +276,7 @@ function analyseScript(content, file, conf) {
             }
             attr += " async=[" + arr.join(",") + "]";
 
-            
-            var result = smarty_left_delimiter +
-                "script" +
-                attr +
-                smarty_right_delimiter +
-                inner +
-                smarty_left_delimiter +
-                "/script" +
-                smarty_right_delimiter;
-            return result;
+            return getSmartyContent('script', attr, inner);;
         });
     return content;
 }
@@ -308,6 +315,7 @@ function defineWidget(content, file, conf) {
 
     //把widget中的method替换为为"_standard路径md5值_method"
     content = tagFilter.filterTag(content, "widget", smarty_left_delimiter, smarty_right_delimiter, function(outter, attr, inner) {
+        
         var matches = attr.match(nameReg),
             info, widgetName;
         if (!matches) {
@@ -327,6 +335,11 @@ function defineWidget(content, file, conf) {
         if (methodReg.test(attr)) {
             attr = attr.replace(methodReg, function(all, methodPrefix, methodValue) {
                 info = fis.util.stringQuote(methodValue);
+
+                // begin with widgetName, mean it has been handled
+                if (info.rest.indexOf(widgetName) === 0) {
+                    return methodPrefix + methodValue;
+                }
                 return methodPrefix + info.quote + widgetName + info.rest + info.quote;
             });
 

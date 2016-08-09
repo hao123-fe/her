@@ -40,11 +40,19 @@ var exports = module.exports = function (ret, conf, settings, opt) {
     //construct package table
     fis.util.map(conf, function (path, patterns, index) {
       var pid, subpath, pkg;
+      var needInline = false;
+      var inlineReg = /\?__inline/;
       if (typeof patterns === 'string' || patterns instanceof RegExp) {
         patterns = [patterns];
       }
       if (fis.util.is(patterns, 'Array') && patterns.length) {
         pid = 'p' + index;
+
+        if (inlineReg.test(path)) {
+          needInline = true;
+          path = path.replace(inlineReg, '');
+        }
+        
         subpath = path.replace(/^\//, '');
         pkg = fis.file(root, subpath);
         if (typeof ret.src[pkg.subpath] !== 'undefined') {
@@ -54,6 +62,7 @@ var exports = module.exports = function (ret, conf, settings, opt) {
           id: pid,
           file: pkg,
           regs: patterns,
+          inline: needInline,
           pkgs: new Array(patterns.length)
         };
       } else {
@@ -173,6 +182,10 @@ var exports = module.exports = function (ret, conf, settings, opt) {
         herRes.defines = defines;
         herRes.requires = deps;
         herRes.requireAsyncs = asyncs;
+
+        if (pkg.inline) {
+          herRes.content = content;
+        }
       }
     });
   }

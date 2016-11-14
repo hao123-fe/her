@@ -3,6 +3,7 @@ var requireAnalyze = require("../plugins/requireAnalyze.js");
 var jsWrapper = require("../plugins/jsWrapper.js");
 var autoPackAnalyze = require("../plugins/autoPackAnalyze.js");
 var outputHermap = require("../plugins/outputHermap.js");
+var cssInline = require("../plugins/cssInline.js");
 
 //copy fis-plus default configs
 module.exports = {
@@ -50,7 +51,8 @@ module.exports = {
             autoPackAnalyze,
             outputHermap
         ],
-        packager: null
+        packager: [],
+        postpackager: [ cssInline ]
     },
     //    modules: {
     //        parser: {

@@ -41,18 +41,18 @@ var exports = module.exports = function (ret, conf, settings, opt) {
     fis.util.map(conf, function (path, patterns, index) {
       var pid, subpath, pkg;
       var needInline = false;
-      var inlineReg = /\?__inline/;
+      var INLINE_REG = /\?__inline/;
+      
+      if (INLINE_REG.test(path)) {
+        needInline = true;
+        path = path.replace(INLINE_REG, '');
+      }
+
       if (typeof patterns === 'string' || patterns instanceof RegExp) {
         patterns = [patterns];
       }
       if (fis.util.is(patterns, 'Array') && patterns.length) {
-        pid = 'p' + index;
-
-        if (inlineReg.test(path)) {
-          needInline = true;
-          path = path.replace(inlineReg, '');
-        }
-        
+        pid = 'p' + index;        
         subpath = path.replace(/^\//, '');
         pkg = fis.file(root, subpath);
         if (typeof ret.src[pkg.subpath] !== 'undefined') {
@@ -144,6 +144,7 @@ var exports = module.exports = function (ret, conf, settings, opt) {
           }
         });
       });
+
       if (defines.length) {
         pkg.file.setContent(content);
         ret.pkg[pkg.file.subpath] = pkg.file;
@@ -182,9 +183,11 @@ var exports = module.exports = function (ret, conf, settings, opt) {
         herRes.defines = defines;
         herRes.requires = deps;
         herRes.requireAsyncs = asyncs;
-
+          
+        // for cssInline
         if (pkg.inline) {
-          herRes.content = content;
+          herRes.inline = true;
+          herRes.file = pkg.file;
         }
       }
     });

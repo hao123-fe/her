@@ -1,10 +1,10 @@
-Her - High-performence Enhanced Rendering Hao123前端高性能渲染解决方案
+Her - High-performance Enhanced Rendering Hao123前端高性能渲染解决方案
 ===
 [![npm](https://img.shields.io/npm/v/her.svg?style=flat-square)](https://www.npmjs.com/package/her)
 [![npm](https://img.shields.io/npm/dm/her.svg?style=flat-square)](https://www.npmjs.com/package/her)
 [![npm](https://img.shields.io/npm/l/her.svg?style=flat-square)](https://www.npmjs.com/package/her)
 
-Her (High-performence Enhanced Rendering) is a Pagelet and Bigpipe like implement, to provide High-performence Rendering in web pages, which inspried by Fackbook's [BigPipe: Pipelining web pages for high performance](https://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919).
+Her (High-performance Enhanced Rendering) is a Pagelet and Bigpipe like implement, to provide High-performance Rendering in web pages, which inspried by Fackbook's [BigPipe: Pipelining web pages for high performance](https://www.facebook.com/notes/facebook-engineering/bigpipe-pipelining-web-pages-for-high-performance/389414033919).
 
 Her is made up of 3 parts, the build tool, the backend output controller and the frontend render controller. The build tool is based on [FIS](http://fis.baidu.com/). The backend output controllers are  `FirstController`, `QuicklingController` and `NoScriptController`, in which `FirstController` provide 4 render modes (`server|lazy|default|none`). And the frontend render controller can load resources and render HTML snippet on demands.
 

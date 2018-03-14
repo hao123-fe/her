@@ -7,7 +7,7 @@ fis.cli.version = require('./version.js');
 
 fis.require.prefixes = ['her', 'fis'];
 
-var defaultConfig = require('./configs/default.js');
+var defaultConfig = require('./src/config/default.js');
 fis.config.merge(defaultConfig);
 // override Connector to update file name to fix cdn cache herid issue
 fis.config.merge({

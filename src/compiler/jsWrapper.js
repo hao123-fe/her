@@ -1,7 +1,7 @@
 /**
 * jsWrapper 以amd模式为js代码封装define，并分析文件中的require，放入depends中
 */
-var commonReg = require("../plugins/commonReg.js");
+var commonReg = require("./commonReg.js");
 
 //构造分析require("xxx")的正则表达式，同时优先分析字符串和注释。
 var requireRegStr = commonReg.stringRegStr + "|" + 

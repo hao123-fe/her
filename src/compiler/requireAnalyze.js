@@ -1,7 +1,7 @@
 /**
 * requireAnalyze 分析文件中的同步require和异步require
 */
-var commonReg = require("../plugins/commonReg.js");
+var commonReg = require("./commonReg.js");
 
 var stringRegStr = commonReg.stringRegStr,
     jscommentRegStr = commonReg.jscommentRegStr,

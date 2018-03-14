@@ -1,6 +1,6 @@
-var tagFilter = require("../plugins/tagFilter.js"),
-    commonReg = require("../plugins/commonReg.js"),
-    pregQuote = require("../plugins/pregQuote.js");
+var tagFilter = require("./tagFilter.js"),
+    commonReg = require("./commonReg.js"),
+    pregQuote = require("./pregQuote.js");
 
 var smarty_left_delimiter;
 var smarty_right_delimiter;

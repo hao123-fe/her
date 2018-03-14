@@ -1,6 +1,6 @@
 {
   "name": "her",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "A High-performence Enhanced Rendering solution - Hao123前端高性能渲染解决方案",
   "keywords": [
     "herJS",
@@ -32,10 +32,21 @@
     "type": "git",
     "url": "https://github.com/hao123-fe/her.git"
   },
+  "scripts": {
+    "build": "gulp",
+    "server:init": "bin/her server clean && bin/her server init",
+    "server:start": "bin/her server start --type php -p 8088",
+    "dev:release": "cd examples/her-website && ../../bin/her release -c",
+    "dev:watch": "cd examples/her-website && ../../bin/her release -cw",
+    "start": "npm run build && cp -r dist/* examples/her-website/lib/ && npm run dev:release && npm run server:init && npm run server:start && npm run dev:watch"
+  },
   "dependencies": {
     "fis": "^1.9.44",
     "fis-optimizer-html-compress": "^0.0.7",
     "fis-optimizer-smarty-xss": "^0.1.3",
-    "fis-parser-less": "^0.1.2"
+    "fis-parser-less": "^0.1.2",
+    "del": "^0.1.3",
+    "gulp": "^3.6.0",
+    "gulp-inline-js": "latest"
   }
 }

@@ -1,9 +1,9 @@
-var templateBuilder = require("../plugins/templateBuilder.js");
-var requireAnalyze = require("../plugins/requireAnalyze.js");
-var jsWrapper = require("../plugins/jsWrapper.js");
-var autoPackAnalyze = require("../plugins/autoPackAnalyze.js");
-var outputHermap = require("../plugins/outputHermap.js");
-var cssInline = require("../plugins/cssInline.js");
+var templateBuilder = require("../compiler/templateBuilder.js");
+var requireAnalyze = require("../compiler/requireAnalyze.js");
+var jsWrapper = require("../compiler/jsWrapper.js");
+var autoPackAnalyze = require("../compiler/autoPackAnalyze.js");
+var outputHermap = require("../compiler/outputHermap.js");
+var cssInline = require("../compiler/cssInline.js");
 
 //copy fis-plus default configs
 module.exports = {
